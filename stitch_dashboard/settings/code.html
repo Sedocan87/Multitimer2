@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2831",
+                        "text-light-primary": "#1C1B1F",
+                        "text-dark-primary": "#E6E1E5",
+                        "text-light-secondary": "#5f6368",
+                        "text-dark-secondary": "#92b7c9",
+                        "icon-bg-light": "#e8eef1",
+                        "icon-bg-dark": "#233c48",
+                        "border-light": "#e0e0e0",
+                        "border-dark": "#2a3b47"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden antialiased">
+<!-- TopAppBar -->
+<div class="flex items-center bg-surface-light dark:bg-surface-dark p-4 pb-3 shadow-sm sticky top-0 z-10 border-b border-border-light dark:border-border-dark">
+<div class="flex size-10 shrink-0 items-center justify-center text-text-light-primary dark:text-text-dark-primary">
+<span class="material-symbols-outlined text-2xl">arrow_back</span>
+</div>
+<h1 class="text-text-light-primary dark:text-text-dark-primary text-xl font-bold leading-tight tracking-[-0.015em] flex-1">Settings</h1>
+</div>
+<div class="flex flex-col">
+<!-- Appearance Section -->
+<h2 class="text-primary text-sm font-bold tracking-wide px-4 pb-2 pt-6">APPEARANCE</h2>
+<div class="flex flex-col bg-surface-light dark:bg-surface-dark divide-y divide-border-light dark:divide-border-dark border-y border-border-light dark:border-border-dark">
+<!-- Theme ListItem -->
+<div class="flex items-center gap-4 px-4 min-h-[72px] py-2 justify-between">
+<div class="flex items-center gap-4">
+<div class="text-text-light-primary dark:text-text-dark-primary flex items-center justify-center rounded-lg bg-icon-bg-light dark:bg-icon-bg-dark shrink-0 size-12">
+<span class="material-symbols-outlined text-2xl">contrast</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-text-light-primary dark:text-text-dark-primary text-base font-medium leading-normal line-clamp-1">Theme</p>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-normal leading-normal line-clamp-2">System Default</p>
+</div>
+</div>
+<div class="shrink-0">
+<div class="text-text-light-primary dark:text-text-dark-primary flex size-7 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Notifications Section -->
+<h2 class="text-primary text-sm font-bold tracking-wide px-4 pb-2 pt-8">NOTIFICATIONS</h2>
+<div class="flex flex-col bg-surface-light dark:bg-surface-dark divide-y divide-border-light dark:divide-border-dark border-y border-border-light dark:border-border-dark">
+<!-- Notification Sound ListItem -->
+<div class="flex items-center gap-4 px-4 min-h-[72px] py-2 justify-between">
+<div class="flex items-center gap-4">
+<div class="text-text-light-primary dark:text-text-dark-primary flex items-center justify-center rounded-lg bg-icon-bg-light dark:bg-icon-bg-dark shrink-0 size-12">
+<span class="material-symbols-outlined text-2xl">notifications</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-text-light-primary dark:text-text-dark-primary text-base font-medium leading-normal line-clamp-1">Notification Sound</p>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-normal leading-normal line-clamp-2">Default</p>
+</div>
+</div>
+<div class="shrink-0">
+<div class="text-text-light-primary dark:text-text-dark-primary flex size-7 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Vibration ListItem -->
+<div class="flex items-center gap-4 px-4 min-h-[72px] py-2 justify-between">
+<div class="flex items-center gap-4">
+<div class="text-text-light-primary dark:text-text-dark-primary flex items-center justify-center rounded-lg bg-icon-bg-light dark:bg-icon-bg-dark shrink-0 size-12">
+<span class="material-symbols-outlined text-2xl">vibration</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-text-light-primary dark:text-text-dark-primary text-base font-medium leading-normal line-clamp-1">Vibration</p>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-normal leading-normal line-clamp-2">Enabled</p>
+</div>
+</div>
+<div class="shrink-0">
+<label class="relative inline-flex cursor-pointer items-center">
+<input checked="" class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white dark:border-gray-600 dark:bg-gray-700 rtl:peer-checked:after:-translate-x-full"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- General Section -->
+<h2 class="text-primary text-sm font-bold tracking-wide px-4 pb-2 pt-8">GENERAL</h2>
+<div class="flex flex-col bg-surface-light dark:bg-surface-dark divide-y divide-border-light dark:divide-border-dark border-y border-border-light dark:border-border-dark">
+<!-- Keep Screen On ListItem -->
+<div class="flex items-center gap-4 px-4 min-h-[72px] py-2 justify-between">
+<div class="flex items-center gap-4">
+<div class="text-text-light-primary dark:text-text-dark-primary flex items-center justify-center rounded-lg bg-icon-bg-light dark:bg-icon-bg-dark shrink-0 size-12">
+<span class="material-symbols-outlined text-2xl">screen_lock_portrait</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-text-light-primary dark:text-text-dark-primary text-base font-medium leading-normal line-clamp-1">Keep Screen On</p>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-normal leading-normal line-clamp-2">Disabled</p>
+</div>
+</div>
+<div class="shrink-0">
+<label class="relative inline-flex cursor-pointer items-center">
+<input class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white dark:border-gray-600 dark:bg-gray-700 rtl:peer-checked:after:-translate-x-full"></div>
+</label>
+</div>
+</div>
+<!-- Run in background ListItem -->
+<div class="flex items-center gap-4 px-4 min-h-[72px] py-2 justify-between">
+<div class="flex items-center gap-4">
+<div class="text-text-light-primary dark:text-text-dark-primary flex items-center justify-center rounded-lg bg-icon-bg-light dark:bg-icon-bg-dark shrink-0 size-12">
+<span class="material-symbols-outlined text-2xl">all_out</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-text-light-primary dark:text-text-dark-primary text-base font-medium leading-normal line-clamp-1">Run in Background</p>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-normal leading-normal line-clamp-2">Check app permissions</p>
+</div>
+</div>
+<div class="shrink-0">
+<div class="text-text-light-primary dark:text-text-dark-primary flex size-7 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- About Section -->
+<h2 class="text-primary text-sm font-bold tracking-wide px-4 pb-2 pt-8">ABOUT</h2>
+<div class="flex flex-col bg-surface-light dark:bg-surface-dark divide-y divide-border-light dark:divide-border-dark border-y border-border-light dark:border-border-dark">
+<!-- App Version ListItem -->
+<div class="flex items-center gap-4 px-4 min-h-[72px] py-2 justify-between">
+<div class="flex items-center gap-4">
+<div class="text-text-light-primary dark:text-text-dark-primary flex items-center justify-center rounded-lg bg-icon-bg-light dark:bg-icon-bg-dark shrink-0 size-12">
+<span class="material-symbols-outlined text-2xl">info</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-text-light-primary dark:text-text-dark-primary text-base font-medium leading-normal line-clamp-1">App Version</p>
+<p class="text-text-light-secondary dark:text-text-dark-secondary text-sm font-normal leading-normal line-clamp-2">1.0.0</p>
+</div>
+</div>
+</div>
+<!-- Rate this App ListItem -->
+<div class="flex items-center gap-4 px-4 min-h-[72px] py-2 justify-between">
+<div class="flex items-center gap-4">
+<div class="text-text-light-primary dark:text-text-dark-primary flex items-center justify-center rounded-lg bg-icon-bg-light dark:bg-icon-bg-dark shrink-0 size-12">
+<span class="material-symbols-outlined text-2xl">star_rate</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-text-light-primary dark:text-text-dark-primary text-base font-medium leading-normal line-clamp-1">Rate This App</p>
+</div>
+</div>
+<div class="shrink-0">
+<div class="text-text-light-primary dark:text-text-dark-primary flex size-7 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Privacy Policy ListItem -->
+<div class="flex items-center gap-4 px-4 min-h-[72px] py-2 justify-between">
+<div class="flex items-center gap-4">
+<div class="text-text-light-primary dark:text-text-dark-primary flex items-center justify-center rounded-lg bg-icon-bg-light dark:bg-icon-bg-dark shrink-0 size-12">
+<span class="material-symbols-outlined text-2xl">privacy_tip</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-text-light-primary dark:text-text-dark-primary text-base font-medium leading-normal line-clamp-1">Privacy Policy</p>
+</div>
+</div>
+<div class="shrink-0">
+<div class="text-text-light-primary dark:text-text-dark-primary flex size-7 items-center justify-center">
+<span class="material-symbols-outlined text-2xl">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

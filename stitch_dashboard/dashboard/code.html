@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Time Blocks UI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#13a4ec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101c22",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "1rem",
+              "xl": "1.5rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Top App Bar -->
+<div class="sticky top-0 z-10 flex items-center justify-between bg-background-light/80 p-4 pb-2 backdrop-blur-sm dark:bg-background-dark/80">
+<div class="flex size-12 shrink-0 items-center">
+<!-- Placeholder for logo if needed -->
+</div>
+<h1 class="flex-1 text-center text-lg font-bold leading-tight tracking-[-0.015em] text-zinc-900 dark:text-white">Time Blocks</h1>
+<div class="flex w-12 items-center justify-end">
+<button class="flex h-12 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-transparent text-zinc-900 dark:text-white min-w-0 p-0">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</button>
+</div>
+</div>
+<main class="flex-1 px-4 pb-28">
+<!-- Active Section -->
+<h2 class="text-zinc-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pt-4 pb-2">Active</h2>
+<!-- Card 1: Active Stopwatch -->
+<div class="w-full @container mb-4">
+<div class="flex flex-col items-stretch justify-start rounded-xl bg-white/50 p-4 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-zinc-600 dark:text-[#92b7c9]">timer</span>
+<p class="text-zinc-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Workout</p>
+</div>
+<div class="my-4 flex items-center justify-between gap-4">
+<p class="text-4xl font-bold tracking-tighter text-zinc-900 dark:text-white">01:15:45</p>
+<div class="relative h-16 w-16">
+<svg class="h-full w-full" height="36" viewbox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+<circle class="stroke-zinc-200 dark:stroke-zinc-700" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-primary" cx="18" cy="18" fill="none" r="16" stroke-dasharray="100" stroke-dashoffset="35" stroke-linecap="round" stroke-width="3" transform="rotate(-90 18 18)"></circle>
+</svg>
+</div>
+</div>
+<div class="flex items-center gap-3 justify-end">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary/20 text-primary text-sm font-medium leading-normal">
+<span class="truncate">Reset</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-medium leading-normal gap-2">
+<span class="material-symbols-outlined text-lg">pause</span>
+<span class="truncate">Pause</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Paused Timer -->
+<div class="w-full @container mb-4">
+<div class="flex flex-col items-stretch justify-start rounded-xl bg-white/50 p-4 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-zinc-600 dark:text-[#92b7c9]">hourglass_top</span>
+<p class="text-zinc-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Study Session</p>
+</div>
+<div class="my-4 flex items-center justify-between gap-4">
+<p class="text-4xl font-bold tracking-tighter text-zinc-400 dark:text-zinc-500">24:10</p>
+<div class="relative h-16 w-16">
+<svg class="h-full w-full" height="36" viewbox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+<circle class="stroke-zinc-200 dark:stroke-zinc-700" cx="18" cy="18" fill="none" r="16" stroke-width="3"></circle>
+<circle class="stroke-orange-400" cx="18" cy="18" fill="none" r="16" stroke-dasharray="100" stroke-dashoffset="60" stroke-linecap="round" stroke-width="3" transform="rotate(-90 18 18)"></circle>
+</svg>
+</div>
+</div>
+<div class="flex items-center gap-3 justify-end">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-white text-sm font-medium leading-normal">
+<span class="truncate">Delete</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-orange-400 text-white text-sm font-medium leading-normal gap-2">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+<span class="truncate">Resume</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Recent Section -->
+<h2 class="text-zinc-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] pt-8 pb-2">Recent</h2>
+<!-- Card 3: Recent Timer -->
+<div class="w-full @container mb-4">
+<div class="flex flex-col items-stretch justify-start rounded-xl bg-white/50 p-4 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-zinc-600 dark:text-[#92b7c9]">kitchen</span>
+<p class="text-zinc-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Pizza in Oven</p>
+</div>
+<div class="my-4 flex items-center justify-between gap-4">
+<p class="text-4xl font-bold tracking-tighter text-zinc-900 dark:text-white">15:00</p>
+<p class="text-zinc-600 dark:text-[#92b7c9] text-base font-normal leading-normal">Timer</p>
+</div>
+<div class="flex items-center gap-3 justify-end">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-medium leading-normal gap-2">
+<span class="material-symbols-outlined text-lg">replay</span>
+<span class="truncate">Start Again</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4: Recent Stopwatch -->
+<div class="w-full @container">
+<div class="flex flex-col items-stretch justify-start rounded-xl bg-white/50 p-4 dark:bg-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-zinc-600 dark:text-[#92b7c9]">directions_run</span>
+<p class="text-zinc-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Morning Run</p>
+</div>
+<div class="my-4 flex items-center justify-between gap-4">
+<p class="text-4xl font-bold tracking-tighter text-zinc-900 dark:text-white">22:08.56</p>
+<p class="text-zinc-600 dark:text-[#92b7c9] text-base font-normal leading-normal">Stopwatch</p>
+</div>
+<div class="flex items-center gap-3 justify-end">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-primary text-white text-sm font-medium leading-normal gap-2">
+<span class="material-symbols-outlined text-lg">replay</span>
+<span class="truncate">Start Again</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-6 right-6">
+<button class="flex h-16 w-16 cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-primary text-white shadow-lg transition-transform duration-200 ease-in-out hover:scale-105">
+<span class="material-symbols-outlined text-4xl">add</span>
+</button>
+</div>
+</div>
+</body></html>

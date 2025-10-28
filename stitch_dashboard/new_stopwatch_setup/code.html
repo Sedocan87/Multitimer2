@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stopwatch</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#13a4ec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101c22",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<!-- Top App Bar -->
+<div class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10">
+<div class="flex size-12 shrink-0 items-center justify-start">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 text-3xl">
+                    menu
+                </span>
+</div>
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Stopwatch</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 bg-transparent text-gray-500 dark:text-gray-400 gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<span class="material-symbols-outlined text-3xl">
+                        more_vert
+                    </span>
+</button>
+</div>
+</div>
+<main class="flex-grow px-4">
+<!-- Main Display Area -->
+<div class="flex flex-col items-center justify-center pt-8 pb-6">
+<h1 class="text-gray-900 dark:text-white tracking-tight text-6xl md:text-7xl font-bold leading-tight text-center">00:34:56.78</h1>
+<p class="text-gray-500 dark:text-gray-400 text-lg font-normal leading-normal pt-2 text-center">Lap 5   00:01:12.34</p>
+</div>
+<!-- Controls Area -->
+<div class="flex justify-center py-6">
+<div class="flex flex-1 gap-4 flex-wrap max-w-sm justify-center">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-16 px-6 bg-gray-200 dark:bg-[#233c48] text-gray-900 dark:text-white text-lg font-bold leading-normal tracking-[0.015em] grow">
+<span class="truncate">Lap</span>
+</button>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-16 px-6 bg-primary text-white text-lg font-bold leading-normal tracking-[0.015em] grow">
+<span class="truncate">Pause</span>
+</button>
+</div>
+</div>
+<!-- Lap History -->
+<div class="max-w-md mx-auto pt-4">
+<div class="flex justify-between items-center px-2 pb-2">
+<h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Laps</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Time</p>
+</div>
+<div class="flex flex-col space-y-2 max-h-48 overflow-y-auto">
+<!-- Lap Item -->
+<div class="flex justify-between items-center bg-gray-100 dark:bg-black/20 p-3 rounded-lg">
+<span class="text-gray-600 dark:text-gray-300">Lap 4</span>
+<span class="font-mono text-gray-900 dark:text-white">00:01:15.02</span>
+</div>
+<!-- Lap Item -->
+<div class="flex justify-between items-center bg-gray-100 dark:bg-black/20 p-3 rounded-lg">
+<span class="text-gray-600 dark:text-gray-300">Lap 3</span>
+<span class="font-mono text-gray-900 dark:text-white">00:01:09.42</span>
+</div>
+<!-- Lap Item -->
+<div class="flex justify-between items-center bg-gray-100 dark:bg-black/20 p-3 rounded-lg">
+<span class="text-gray-600 dark:text-gray-300">Lap 2</span>
+<span class="font-mono text-gray-900 dark:text-white">00:01:11.98</span>
+</div>
+<!-- Lap Item -->
+<div class="flex justify-between items-center bg-gray-100 dark:bg-black/20 p-3 rounded-lg">
+<span class="text-gray-600 dark:text-gray-300">Lap 1</span>
+<span class="font-mono text-gray-900 dark:text-white">00:01:08.02</span>
+</div>
+</div>
+</div>
+<!-- Saved Sessions -->
+<div class="max-w-md mx-auto pt-10 pb-24">
+<h3 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-2 pb-3">Saved Sessions</h3>
+<div class="flex flex-col space-y-3">
+<!-- Saved Session Card -->
+<div class="flex items-center justify-between bg-white dark:bg-[#1A2830] p-4 rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-[#20313a] transition-colors">
+<div class="flex flex-col">
+<h4 class="font-semibold text-gray-900 dark:text-white">Morning Run - Oct 26</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400">Total: 00:34:56.78 • 4 Laps</p>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500">
+                            chevron_right
+                        </span>
+</div>
+<!-- Saved Session Card -->
+<div class="flex items-center justify-between bg-white dark:bg-[#1A2830] p-4 rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-[#20313a] transition-colors">
+<div class="flex flex-col">
+<h4 class="font-semibold text-gray-900 dark:text-white">Workout Intervals</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400">Total: 01:15:22.45 • 12 Laps</p>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500">
+                            chevron_right
+                        </span>
+</div>
+<!-- Saved Session Card -->
+<div class="flex items-center justify-between bg-white dark:bg-[#1A2830] p-4 rounded-xl shadow-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-[#20313a] transition-colors">
+<div class="flex flex-col">
+<h4 class="font-semibold text-gray-900 dark:text-white">Project Timing</h4>
+<p class="text-sm text-gray-500 dark:text-gray-400">Total: 02:45:10.11 • 2 Laps</p>
+</div>
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500">
+                            chevron_right
+                        </span>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-6 right-6 z-20">
+<button class="flex items-center justify-center w-16 h-16 bg-primary text-white rounded-xl shadow-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark transition-all">
+<span class="material-symbols-outlined text-4xl">
+                    add
+                </span>
+</button>
+</div>
+</div>
+</body></html>
