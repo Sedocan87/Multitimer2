@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:time_blocks/screens/settings_screen.dart';
+import 'package:time_blocks/screens/stopwatch_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Time Blocks',
       theme: ThemeData.dark(),
-      home: const SettingsScreen(),
+      home: const StopwatchScreen(),
     );
   }
 }

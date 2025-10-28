@@ -10,11 +10,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:time_blocks/main.dart';
 
 void main() {
-  testWidgets('Settings screen has a title', (WidgetTester tester) async {
+  testWidgets('Stopwatch screen has a title', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
     // Verify that our app has a title.
-    expect(find.text('Settings'), findsOneWidget);
+    expect(find.text('Stopwatch'), findsOneWidget);
   });
 }
