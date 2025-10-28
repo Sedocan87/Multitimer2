@@ -179,7 +179,9 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
           title: Text(repeatType.toString().split('.').last),
           leading: Radio<RepeatType>(
             value: repeatType,
+            // ignore: deprecated_member_use
             groupValue: _repeat,
+            // ignore: deprecated_member_use
             onChanged: (RepeatType? value) {
               setState(() {
                 _repeat = value!;
