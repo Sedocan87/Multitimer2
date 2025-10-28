@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:time_blocks/models/multi_timer.dart';
+import 'package:time_blocks/models/timer_type.dart';
+import 'package:time_blocks/services/timer_service.dart';
+import 'package:uuid/uuid.dart';
 
 class NewTimerSetupScreen extends StatefulWidget {
   const NewTimerSetupScreen({super.key});
@@ -15,7 +19,6 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
   @override
   void initState() {
     super.initState();
-    // Start with one timer by default
     _addTimer();
   }
 
@@ -48,11 +51,16 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
   }
 
   void _savePreset() {
-    final preset = MultiTimerPreset(
-      name: _presetNameController.text,
-      steps: _timers,
+    final timerService = Provider.of<TimerService>(context, listen: false);
+    final totalDuration = _timers.fold(Duration.zero, (prev, step) => prev + step.duration);
+    final newPreset = Timerable(
+      id: const Uuid().v4(),
+      name: _presetNameController.text.isNotEmpty ? _presetNameController.text : 'Multi-Timer',
+      timerType: TimerType.multiTimer,
+      duration: totalDuration,
     );
-    Navigator.of(context).pop(preset);
+    timerService.addTimer(newPreset);
+    Navigator.of(context).pop();
   }
 
   Future<void> _showSoundSelectionDialog(int index) async {
@@ -137,8 +145,8 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
                   Text('Add Another Timer'),
                 ],
               ),
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50),
+              style: ButtonStyle(
+                minimumSize: MaterialStateProperty.all(const Size(double.infinity, 50)),
               ),
             ),
           ],

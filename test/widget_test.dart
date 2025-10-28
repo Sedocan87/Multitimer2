@@ -6,15 +6,21 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:provider/provider.dart';
 import 'package:time_blocks/main.dart';
+import 'package:time_blocks/services/timer_service.dart';
 
 void main() {
-  testWidgets('Stopwatch screen has a title', (WidgetTester tester) async {
+  testWidgets('App starts and shows the dashboard screen title', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(
+      ChangeNotifierProvider(
+        create: (context) => TimerService(),
+        child: const MyApp(),
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('Stopwatch'), findsOneWidget);
+    // Verify that the dashboard screen title is present.
+    expect(find.text('Time Blocks'), findsOneWidget);
   });
 }

@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../models/countdown.dart';
+import 'package:provider/provider.dart';
+import 'package:time_blocks/models/timer_type.dart';
+import 'package:time_blocks/services/timer_service.dart';
+import 'package:time_blocks/models/countdown.dart';
+import 'package:uuid/uuid.dart';
 
 class NewCountdownScreen extends StatefulWidget {
   const NewCountdownScreen({super.key});
@@ -97,20 +101,15 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  final newCountdown = Countdown(
+                  final timerService = Provider.of<TimerService>(context, listen: false);
+                  final newCountdown = Timerable(
+                    id: const Uuid().v4(),
                     name: _name,
-                    type: _type,
-                    targetDate: _type == CountdownType.dateAndTime
-                        ? _targetDate
-                        : null,
-                    duration: _type == CountdownType.duration
-                        ? _duration
-                        : null,
-                    repeat: _repeat,
-                    alertTime: _alertTime,
-                    alertSound: _alertSound,
+                    timerType: TimerType.countdown,
+                    duration: _type == CountdownType.duration ? _duration : _targetDate.difference(DateTime.now()),
                   );
-                  Navigator.of(context).pop(newCountdown);
+                  timerService.addTimer(newCountdown);
+                  Navigator.of(context).pop();
                 }
               },
               child: const Text('Create Countdown'),
@@ -180,9 +179,7 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
           title: Text(repeatType.toString().split('.').last),
           leading: Radio<RepeatType>(
             value: repeatType,
-            // ignore: deprecated_member_use
             groupValue: _repeat,
-            // ignore: deprecated_member_use
             onChanged: (RepeatType? value) {
               setState(() {
                 _repeat = value!;

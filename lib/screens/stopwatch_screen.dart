@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:time_blocks/screens/new_timer_setup_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:time_blocks/models/timer_type.dart';
+import 'package:time_blocks/services/timer_service.dart';
+import 'package:uuid/uuid.dart';
 
 class StopwatchScreen extends StatefulWidget {
   const StopwatchScreen({super.key});
@@ -54,6 +57,18 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     });
   }
 
+  void _saveSession() {
+    final timerService = Provider.of<TimerService>(context, listen: false);
+    final newStopwatch = Timerable(
+      id: const Uuid().v4(),
+      name: 'Stopwatch Session',
+      timerType: TimerType.stopwatch,
+      duration: _stopwatch.elapsed,
+    );
+    timerService.addTimer(newStopwatch);
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,12 +76,8 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
         title: const Text('Stopwatch'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const NewTimerSetupScreen()),
-              );
-            },
+            icon: const Icon(Icons.save),
+            onPressed: _stopwatch.elapsed > Duration.zero ? _saveSession : null,
           ),
         ],
       ),
@@ -76,7 +87,6 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
           _buildControls(),
           _buildLapList(),
           _buildSavedSessionsHeader(),
-          // TODO: Implement Saved Sessions in Phase 5
           _buildSavedSessionsList(),
         ],
       ),
