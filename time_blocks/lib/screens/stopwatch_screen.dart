@@ -56,9 +56,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Stopwatch'),
-      ),
+      appBar: AppBar(title: const Text('Stopwatch')),
       body: Column(
         children: [
           _buildTimerDisplay(),
@@ -77,10 +75,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
       padding: const EdgeInsets.symmetric(vertical: 50.0),
       child: Column(
         children: [
-          Text(
-            _result,
-            style: const TextStyle(fontSize: 48.0),
-          ),
+          Text(_result, style: const TextStyle(fontSize: 48.0)),
           Text(
             _lapResult,
             style: const TextStyle(fontSize: 24.0, color: Colors.grey),
