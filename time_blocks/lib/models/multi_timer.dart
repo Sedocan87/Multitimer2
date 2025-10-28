@@ -2,10 +2,7 @@ class MultiTimerPreset {
   final String name;
   final List<TimerStep> steps;
 
-  MultiTimerPreset({
-    required this.name,
-    required this.steps,
-  });
+  MultiTimerPreset({required this.name, required this.steps});
 }
 
 class TimerStep {

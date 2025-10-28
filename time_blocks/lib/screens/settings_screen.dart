@@ -20,9 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
+      appBar: AppBar(title: const Text('Settings')),
       body: ListView(
         children: [
           _buildSectionHeader('APPEARANCE'),
@@ -47,10 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       padding: const EdgeInsets.all(16.0),
       child: Text(
         title,
-        style: const TextStyle(
-          color: Colors.blue,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -62,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       subtitle: Text(_appSettings.theme),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
-        print('Navigate to theme selection');
+        debugPrint('Navigate to theme selection');
       },
     );
   }
@@ -74,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       subtitle: Text(_appSettings.notificationSound),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
-        print('Navigate to notification sound selection');
+        debugPrint('Navigate to notification sound selection');
       },
     );
   }
@@ -114,7 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       subtitle: const Text('Check app permissions'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
-        print('Navigate to app permissions');
+        debugPrint('Navigate to app permissions');
       },
     );
   }
@@ -133,7 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       title: const Text('Rate This App'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
-        print('Navigate to app store');
+        debugPrint('Navigate to app store');
       },
     );
   }
@@ -144,7 +139,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       title: const Text('Privacy Policy'),
       trailing: const Icon(Icons.chevron_right),
       onTap: () {
-        print('Navigate to privacy policy');
+        debugPrint('Navigate to privacy policy');
       },
     );
   }
