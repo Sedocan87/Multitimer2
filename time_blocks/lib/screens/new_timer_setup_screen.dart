@@ -126,10 +126,17 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
               ],
             ),
             const SizedBox(height: 16),
-            OutlinedButton.icon(
+            OutlinedButton(
+              key: const Key('add_timer_button'),
               onPressed: _addTimer,
-              icon: const Icon(Icons.add),
-              label: const Text('Add Another Timer'),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.add),
+                  SizedBox(width: 8),
+                  Text('Add Another Timer'),
+                ],
+              ),
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
               ),

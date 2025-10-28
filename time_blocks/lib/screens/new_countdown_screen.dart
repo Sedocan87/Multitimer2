@@ -100,8 +100,12 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
                   final newCountdown = Countdown(
                     name: _name,
                     type: _type,
-                    targetDate: _type == CountdownType.dateAndTime ? _targetDate : null,
-                    duration: _type == CountdownType.duration ? _duration : null,
+                    targetDate: _type == CountdownType.dateAndTime
+                        ? _targetDate
+                        : null,
+                    duration: _type == CountdownType.duration
+                        ? _duration
+                        : null,
                     repeat: _repeat,
                     alertTime: _alertTime,
                     alertSound: _alertSound,
@@ -160,9 +164,7 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
       children: [
         ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              title: Text(title),
-            );
+            return ListTile(title: Text(title));
           },
           body: child,
           isExpanded: isExpanded,
@@ -174,13 +176,22 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
   Widget _buildRepeatOptions() {
     return Column(
       children: RepeatType.values.map((repeatType) {
-        return RadioListTile<RepeatType>(
+        return ListTile(
           title: Text(repeatType.toString().split('.').last),
-          value: repeatType,
-          groupValue: _repeat,
-          onChanged: (RepeatType? value) {
+          leading: Radio<RepeatType>(
+            value: repeatType,
+            // ignore: deprecated_member_use
+            groupValue: _repeat,
+            // ignore: deprecated_member_use
+            onChanged: (RepeatType? value) {
+              setState(() {
+                _repeat = value!;
+              });
+            },
+          ),
+          onTap: () {
             setState(() {
-              _repeat = value!;
+              _repeat = repeatType;
             });
           },
         );
@@ -231,12 +242,14 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: ['Default', 'Chime', 'Alarm', 'Signal']
-                .map((sound) => ListTile(
-                      title: Text(sound),
-                      onTap: () {
-                        Navigator.of(context).pop(sound);
-                      },
-                    ))
+                .map(
+                  (sound) => ListTile(
+                    title: Text(sound),
+                    onTap: () {
+                      Navigator.of(context).pop(sound);
+                    },
+                  ),
+                )
                 .toList(),
           ),
         );

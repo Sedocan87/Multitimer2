@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:time_blocks/models/countdown.dart';
 import 'package:time_blocks/screens/new_countdown_screen.dart';
 
 void main() {
-  testWidgets('NewCountdownScreen has a title and a create button', (WidgetTester tester) async {
+  testWidgets('NewCountdownScreen has a title and a create button', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const MaterialApp(home: NewCountdownScreen()));
 
     expect(find.text('New Countdown'), findsOneWidget);
@@ -21,7 +22,9 @@ void main() {
     expect(find.text('Please enter a name'), findsOneWidget);
   });
 
-  testWidgets('switches between date & time and duration', (WidgetTester tester) async {
+  testWidgets('switches between date & time and duration', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const MaterialApp(home: NewCountdownScreen()));
 
     expect(find.text('Date & Time'), findsOneWidget);

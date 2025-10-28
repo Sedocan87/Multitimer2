@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
 
-enum CountdownType {
-  dateAndTime,
-  duration,
-}
+enum CountdownType { dateAndTime, duration }
 
-enum RepeatType {
-  none,
-  daily,
-  weekly,
-  monthly,
-  yearly,
-}
+enum RepeatType { none, daily, weekly, monthly, yearly }
 
 class Countdown {
   final String name;

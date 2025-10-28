@@ -19,10 +19,7 @@ void main() {
     expect(find.text('Timers'), findsOneWidget);
 
     // Verify that the "Add Another Timer" button is displayed.
-    expect(
-      find.widgetWithText(OutlinedButton, 'Add Another Timer'),
-      findsOneWidget,
-    );
+    expect(find.byKey(const Key('add_timer_button')), findsOneWidget);
 
     // Verify that the "Save Preset" button is displayed.
     expect(
@@ -39,11 +36,7 @@ void main() {
     expect(find.byType(Card), findsOneWidget);
 
     // Tap the "Add Another Timer" button.
-    await tester.scrollUntilVisible(
-      find.widgetWithText(OutlinedButton, 'Add Another Timer'),
-      50,
-    );
-    await tester.tap(find.widgetWithText(OutlinedButton, 'Add Another Timer'));
+    await tester.tap(find.byKey(const Key('add_timer_button')));
     await tester.pumpAndSettle();
 
     // Verify that there are now two timer cards.
