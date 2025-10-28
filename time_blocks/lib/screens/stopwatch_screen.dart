@@ -63,7 +63,9 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => const NewTimerSetupScreen()));
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const NewTimerSetupScreen()),
+              );
             },
           ),
         ],

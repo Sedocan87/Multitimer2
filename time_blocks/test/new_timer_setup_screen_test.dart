@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:time_blocks/screens/new_timer_setup_screen.dart';
 
 void main() {
-  testWidgets('NewTimerSetupScreen renders correctly', (WidgetTester tester) async {
+  testWidgets('NewTimerSetupScreen renders correctly', (
+    WidgetTester tester,
+  ) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MaterialApp(
-      home: NewTimerSetupScreen(),
-    ));
+    await tester.pumpWidget(const MaterialApp(home: NewTimerSetupScreen()));
 
     // Verify that the title is displayed.
     expect(find.text('New Multi-Timer'), findsOneWidget);
@@ -19,23 +19,30 @@ void main() {
     expect(find.text('Timers'), findsOneWidget);
 
     // Verify that the "Add Another Timer" button is displayed.
-    expect(find.widgetWithText(OutlinedButton, 'Add Another Timer'), findsOneWidget);
+    expect(
+      find.widgetWithText(OutlinedButton, 'Add Another Timer'),
+      findsOneWidget,
+    );
 
     // Verify that the "Save Preset" button is displayed.
-    expect(find.widgetWithText(FloatingActionButton, 'Save Preset'), findsOneWidget);
+    expect(
+      find.widgetWithText(FloatingActionButton, 'Save Preset'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('Can add and remove timers', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MaterialApp(
-      home: NewTimerSetupScreen(),
-    ));
+    await tester.pumpWidget(const MaterialApp(home: NewTimerSetupScreen()));
 
     // Verify that there is initially one timer card.
     expect(find.byType(Card), findsOneWidget);
 
     // Tap the "Add Another Timer" button.
-    await tester.scrollUntilVisible(find.widgetWithText(OutlinedButton, 'Add Another Timer'), 50);
+    await tester.scrollUntilVisible(
+      find.widgetWithText(OutlinedButton, 'Add Another Timer'),
+      50,
+    );
     await tester.tap(find.widgetWithText(OutlinedButton, 'Add Another Timer'));
     await tester.pumpAndSettle();
 

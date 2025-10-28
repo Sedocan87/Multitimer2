@@ -10,7 +10,7 @@ class NewTimerSetupScreen extends StatefulWidget {
 
 class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
   final _presetNameController = TextEditingController();
-  List<TimerStep> _timers = [];
+  final List<TimerStep> _timers = [];
 
   @override
   void initState() {
@@ -21,11 +21,13 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
 
   void _addTimer() {
     setState(() {
-      _timers.add(const TimerStep(
-        label: '',
-        duration: Duration(minutes: 1),
-        alertSound: 'Chimes',
-      ));
+      _timers.add(
+        const TimerStep(
+          label: '',
+          duration: Duration(minutes: 1),
+          alertSound: 'Chimes',
+        ),
+      );
     });
   }
 
@@ -123,7 +125,7 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
                   _buildTimerCard(index, Key('$index')),
               ],
             ),
-             const SizedBox(height: 16),
+            const SizedBox(height: 16),
             OutlinedButton.icon(
               onPressed: _addTimer,
               icon: const Icon(Icons.add),
@@ -175,21 +177,35 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _buildTimeInput(
-                        initialValue: _timers[index].duration.inMinutes.toString().padLeft(2, '0'),
+                        initialValue: _timers[index].duration.inMinutes
+                            .toString()
+                            .padLeft(2, '0'),
                         onChanged: (value) {
                           final minutes = int.tryParse(value) ?? 0;
                           setState(() {
-                            _timers[index] = _timers[index].copyWith(duration: Duration(minutes: minutes, seconds: _timers[index].duration.inSeconds % 60));
+                            _timers[index] = _timers[index].copyWith(
+                              duration: Duration(
+                                minutes: minutes,
+                                seconds: _timers[index].duration.inSeconds % 60,
+                              ),
+                            );
                           });
                         },
                       ),
                       const Text(':', style: TextStyle(fontSize: 24)),
                       _buildTimeInput(
-                        initialValue: (_timers[index].duration.inSeconds % 60).toString().padLeft(2, '0'),
+                        initialValue: (_timers[index].duration.inSeconds % 60)
+                            .toString()
+                            .padLeft(2, '0'),
                         onChanged: (value) {
                           final seconds = int.tryParse(value) ?? 0;
                           setState(() {
-                            _timers[index] = _timers[index].copyWith(duration: Duration(minutes: _timers[index].duration.inMinutes, seconds: seconds));
+                            _timers[index] = _timers[index].copyWith(
+                              duration: Duration(
+                                minutes: _timers[index].duration.inMinutes,
+                                seconds: seconds,
+                              ),
+                            );
                           });
                         },
                       ),
@@ -215,7 +231,10 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
     );
   }
 
-  Widget _buildTimeInput({required String initialValue, required ValueChanged<String> onChanged}) {
+  Widget _buildTimeInput({
+    required String initialValue,
+    required ValueChanged<String> onChanged,
+  }) {
     return SizedBox(
       width: 40,
       child: TextFormField(
@@ -223,9 +242,7 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
         onChanged: onChanged,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 24, fontFamily: 'monospace'),
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-        ),
+        decoration: const InputDecoration(border: InputBorder.none),
         keyboardType: TextInputType.number,
       ),
     );
