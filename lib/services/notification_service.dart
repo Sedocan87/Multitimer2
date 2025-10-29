@@ -27,6 +27,7 @@ class NotificationService {
       description: 'your_channel_description',
       importance: Importance.max,
       playSound: true,
+      sound: RawResourceAndroidNotificationSound('notification'),
     );
 
     await flutterLocalNotificationsPlugin
@@ -46,6 +47,7 @@ class NotificationService {
           priority: Priority.high,
           showWhen: false,
           playSound: true,
+          sound: RawResourceAndroidNotificationSound('notification'),
         );
     final NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
