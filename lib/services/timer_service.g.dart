@@ -27,6 +27,11 @@ Timerable _$TimerableFromJson(Map<String, dynamic> json) => Timerable(
           .toList() ??
       const [],
   currentStepIndex: (json['currentStepIndex'] as num?)?.toInt() ?? 0,
+  laps:
+      (json['laps'] as List<dynamic>?)
+          ?.map((e) => Duration(microseconds: (e as num).toInt()))
+          .toList() ??
+      const [],
 );
 
 Map<String, dynamic> _$TimerableToJson(Timerable instance) => <String, dynamic>{
@@ -39,6 +44,7 @@ Map<String, dynamic> _$TimerableToJson(Timerable instance) => <String, dynamic>{
   'initialDuration': instance.initialDuration.inMicroseconds,
   'steps': instance.steps,
   'currentStepIndex': instance.currentStepIndex,
+  'laps': instance.laps.map((e) => e.inMicroseconds).toList(),
 };
 
 const _$TimerTypeEnumMap = {

@@ -6,27 +6,51 @@ import 'package:time_blocks/services/timer_service.dart';
 import 'package:uuid/uuid.dart';
 
 class StopwatchScreen extends StatefulWidget {
-  const StopwatchScreen({super.key});
+  final Timerable? timerable;
+
+  const StopwatchScreen({super.key, this.timerable});
 
   @override
   State<StopwatchScreen> createState() => _StopwatchScreenState();
 }
 
 class _StopwatchScreenState extends State<StopwatchScreen> {
+  late final Timerable _timerable;
   final Stopwatch _stopwatch = Stopwatch();
   final Stopwatch _lapStopwatch = Stopwatch();
   late Timer _timer;
   String _result = '00:00:00.00';
   String _lapResult = '00:00:00.00';
-  final List<String> _laps = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.timerable != null) {
+      _timerable = widget.timerable!;
+      _result = _formatDuration(_timerable.duration);
+    } else {
+      _timerable = Timerable(
+        id: const Uuid().v4(),
+        name: 'Stopwatch Session',
+        timerType: TimerType.stopwatch,
+      );
+    }
+    _start();
+  }
+
+  String _formatDuration(Duration d) {
+    return '${d.inMinutes.toString().padLeft(2, '0')}:${(d.inSeconds % 60).toString().padLeft(2, '0')}:${(d.inMilliseconds % 1000 ~/ 10).toString().padLeft(2, '0')}';
+  }
 
   void _start() {
     _timer = Timer.periodic(const Duration(milliseconds: 10), (Timer t) {
       setState(() {
-        _result =
-            '${_stopwatch.elapsed.inMinutes.toString().padLeft(2, '0')}:${(_stopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0')}:${(_stopwatch.elapsed.inMilliseconds % 1000 ~/ 10).toString().padLeft(2, '0')}';
-        _lapResult =
-            '${_lapStopwatch.elapsed.inMinutes.toString().padLeft(2, '0')}:${(_lapStopwatch.elapsed.inSeconds % 60).toString().padLeft(2, '0')}:${(_lapStopwatch.elapsed.inMilliseconds % 1000 ~/ 10).toString().padLeft(2, '0')}';
+        if (widget.timerable != null) {
+          _result = _formatDuration(_timerable.duration + _stopwatch.elapsed);
+        } else {
+          _result = _formatDuration(_stopwatch.elapsed);
+        }
+        _lapResult = _formatDuration(_lapStopwatch.elapsed);
       });
     });
     _stopwatch.start();
@@ -41,7 +65,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
 
   void _lap() {
     setState(() {
-      _laps.add(_result);
+      _timerable.laps.add(_lapStopwatch.elapsed);
     });
     _lapStopwatch.reset();
   }
@@ -51,20 +75,20 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     _stopwatch.reset();
     _lapStopwatch.reset();
     setState(() {
-      _laps.clear();
+      _timerable.laps.clear();
       _result = '00:00:00.00';
       _lapResult = '00:00:00.00';
     });
   }
 
   void _saveSession() {
+    if (widget.timerable != null) {
+      // Timer already exists, just pop
+      Navigator.of(context).pop();
+      return;
+    }
     final timerService = Provider.of<TimerService>(context, listen: false);
-    final newStopwatch = Timerable(
-      id: const Uuid().v4(),
-      name: 'Stopwatch Session',
-      timerType: TimerType.stopwatch,
-      duration: _stopwatch.elapsed,
-    );
+    final newStopwatch = _timerable.copyWith(duration: _stopwatch.elapsed);
     timerService.addTimer(newStopwatch);
     Navigator.of(context).pop();
   }
@@ -124,11 +148,14 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   Widget _buildLapList() {
     return Expanded(
       child: ListView.builder(
-        itemCount: _laps.length,
+        itemCount: _timerable.laps.length,
         itemBuilder: (context, index) {
+          final lap = _timerable.laps[index];
+          final lapText =
+              '${lap.inMinutes.toString().padLeft(2, '0')}:${(lap.inSeconds % 60).toString().padLeft(2, '0')}:${(lap.inMilliseconds % 1000 ~/ 10).toString().padLeft(2, '0')}';
           return ListTile(
             leading: Text('Lap ${index + 1}'),
-            title: Text(_laps[index]),
+            title: Text(lapText),
           );
         },
       ),

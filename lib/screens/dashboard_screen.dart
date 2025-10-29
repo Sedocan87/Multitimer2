@@ -114,37 +114,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
         onLongPress: () {
           _showDeleteConfirmationDialog(timer.id);
         },
-
         child: Card(
           child: ExpansionTile(
             title: Text(
               timer.name,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-
             subtitle: Text(
               'Step ${timer.currentStepIndex + 1} of ${timer.steps.length} - ${_formatDuration(timer.duration, TimerType.countdown)}',
             ),
-
             children: timer.steps.map((step) {
               final stepIndex = timer.steps.indexOf(step);
-
               final isCurrentStep = stepIndex == timer.currentStepIndex;
-
               final isCompletedStep = stepIndex < timer.currentStepIndex;
-
               final double progress = isCompletedStep
                   ? 1.0
                   : isCurrentStep
                   ? 1.0 - (timer.duration.inSeconds / step.duration.inSeconds)
                   : 0.0;
-
               return ListTile(
                 title: Text(step.label),
-
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
                     Text(
                       _formatDuration(
@@ -152,14 +143,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         TimerType.countdown,
                       ),
                     ),
-
                     const SizedBox(height: 8),
-
                     LinearProgressIndicator(
                       value: progress,
-
                       backgroundColor: Colors.grey[300],
-
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Colors.blue,
                       ),
@@ -173,24 +160,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     } else {
       return InkWell(
+        onTap: () {
+          if (timer.timerType == TimerType.stopwatch) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => StopwatchScreen(timerable: timer),
+              ),
+            );
+          }
+        },
         onLongPress: () {
           _showDeleteConfirmationDialog(timer.id);
         },
-
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-
               children: [
                 Row(
                   children: [
                     const Icon(Icons.timer),
-
                     const SizedBox(width: 8),
-
                     Text(
                       timer.name,
                       style: const TextStyle(
@@ -200,19 +192,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 16),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                   children: [
                     Expanded(
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
-
                         alignment: Alignment.centerLeft,
-
                         child: Text(
                           _formatDuration(timer.duration, timer.timerType),
                           style: const TextStyle(
@@ -224,17 +211,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 16),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-
                   children: [
                     if (timer.timerType != TimerType.countdown ||
                         timer.countdownType == CountdownType.duration) ...[
                       const SizedBox(width: 8),
-
                       OutlinedButton(
                         onPressed: () {
                           Provider.of<TimerService>(
@@ -242,12 +225,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             listen: false,
                           ).resetTimer(timer.id);
                         },
-
                         child: const Text('Reset'),
                       ),
-
                       const SizedBox(width: 8),
-
                       if (timer.isActive)
                         ElevatedButton.icon(
                           onPressed: () {
@@ -256,9 +236,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               listen: false,
                             ).pauseTimer(timer.id);
                           },
-
                           icon: const Icon(Icons.pause),
-
                           label: const Text('Pause'),
                         )
                       else if (timer.timerType == TimerType.stopwatch ||
@@ -271,11 +249,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               listen: false,
                             ).resumeTimer(timer.id);
                           },
-
                           icon: const Icon(Icons.play_arrow),
-
                           label: const Text('Resume'),
-
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.orange,
                           ),
@@ -283,21 +258,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ],
                   ],
                 ),
-
                 if (timer.timerType == TimerType.countdown &&
                     timer.initialDuration.inSeconds > 0)
                   Column(
                     children: [
                       const SizedBox(height: 16),
-
                       LinearProgressIndicator(
                         value:
                             1.0 -
                             (timer.duration.inSeconds /
                                 timer.initialDuration.inSeconds),
-
                         backgroundColor: Colors.grey[300],
-
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           Colors.blue,
                         ),

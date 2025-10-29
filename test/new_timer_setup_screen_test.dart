@@ -39,8 +39,12 @@ void main() {
     // Verify that there are now two timer cards.
     expect(find.byType(Card), findsNWidgets(2));
 
-    // Tap the delete button on the first timer card.
-    await tester.tap(find.byIcon(Icons.delete).first);
+    // Long press the first timer card.
+    await tester.longPress(find.byType(Card).first);
+    await tester.pumpAndSettle();
+
+    // Tap the delete button in the dialog.
+    await tester.tap(find.widgetWithText(TextButton, 'Delete'));
     await tester.pumpAndSettle();
 
     // Verify that there is now one timer card.

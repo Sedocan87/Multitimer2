@@ -23,6 +23,7 @@ class Timerable {
   Duration initialDuration;
   List<TimerStep> steps; // New property
   int currentStepIndex; // New property
+  List<Duration> laps; // New property
 
   Timerable({
     required this.id,
@@ -34,7 +35,34 @@ class Timerable {
     this.initialDuration = Duration.zero,
     this.steps = const [], // Initialize with an empty list
     this.currentStepIndex = 0, // Initialize with 0
+    this.laps = const [], // Initialize with an empty list
   });
+
+  Timerable copyWith({
+    String? id,
+    String? name,
+    TimerType? timerType,
+    CountdownType? countdownType,
+    bool? isActive,
+    Duration? duration,
+    Duration? initialDuration,
+    List<TimerStep>? steps,
+    int? currentStepIndex,
+    List<Duration>? laps,
+  }) {
+    return Timerable(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      timerType: timerType ?? this.timerType,
+      countdownType: countdownType ?? this.countdownType,
+      isActive: isActive ?? this.isActive,
+      duration: duration ?? this.duration,
+      initialDuration: initialDuration ?? this.initialDuration,
+      steps: steps ?? this.steps,
+      currentStepIndex: currentStepIndex ?? this.currentStepIndex,
+      laps: laps ?? this.laps,
+    );
+  }
 
   factory Timerable.fromJson(Map<String, dynamic> json) =>
       _$TimerableFromJson(json);

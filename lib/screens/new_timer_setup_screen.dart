@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_blocks/models/multi_timer.dart';
@@ -72,6 +73,40 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
     Navigator.of(context).pop();
   }
 
+  Future<void> _showDeleteConfirmationDialog(int index) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete Timer'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Are you sure you want to delete this timer?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Delete'),
+              onPressed: () {
+                _removeTimer(index);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _showSoundSelectionDialog(int index) async {
     final sounds = ['Chimes', 'Digital', 'Beep', 'Bell'];
     final selectedSound = await showDialog<String>(
@@ -105,57 +140,110 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
     }
   }
 
+  Future<void> _showDurationPicker(int index) async {
+    final newDuration = await showModalBottomSheet<Duration>(
+      context: context,
+
+      builder: (context) {
+        return SizedBox(
+          height: 200,
+
+          child: CupertinoTimerPicker(
+            mode: CupertinoTimerPickerMode.hms,
+
+            initialTimerDuration: _timers[index].duration,
+
+            onTimerDurationChanged: (newDuration) {
+              setState(() {
+                _timers[index] = _timers[index].copyWith(duration: newDuration);
+              });
+            },
+          ),
+        );
+      },
+    );
+
+    if (newDuration != null) {
+      setState(() {
+        _timers[index] = _timers[index].copyWith(duration: newDuration);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Multi-Timer'),
+
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
+
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
+
         child: ListView(
           children: [
             TextField(
               controller: _presetNameController,
+
               decoration: const InputDecoration(
                 labelText: 'Preset Name',
+
                 hintText: 'e.g., Morning Workout',
+
                 border: OutlineInputBorder(),
               ),
             ),
+
             const SizedBox(height: 24),
+
             const Text(
               'Timers',
+
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+
             const SizedBox(height: 16),
+
             ReorderableListView(
               shrinkWrap: true,
+
               physics: const NeverScrollableScrollPhysics(),
+
               onReorder: _onReorder,
+
               children: [
                 for (int index = 0; index < _timers.length; index++)
                   _buildTimerCard(index, Key('$index')),
               ],
             ),
+
             const SizedBox(height: 16),
+
             OutlinedButton(
               key: const Key('add_timer_button'),
+
               onPressed: _addTimer,
+
               style: ButtonStyle(
                 minimumSize: WidgetStateProperty.all(
                   const Size(double.infinity, 50),
                 ),
               ),
+
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+
                 children: [
                   Icon(Icons.add),
+
                   SizedBox(width: 8),
+
                   Text('Add Another Timer'),
                 ],
               ),
@@ -163,40 +251,57 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
           ],
         ),
       ),
+
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
+
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
           children: [
             ElevatedButton(
               onPressed: _savePreset,
+
               child: const Text('Save Preset'),
             ),
+
             ElevatedButton(
               onPressed: () {
                 final timerService = Provider.of<TimerService>(
                   context,
+
                   listen: false,
                 );
+
                 final totalDuration = _timers.fold(
                   Duration.zero,
+
                   (prev, step) => prev + step.duration,
                 );
+
                 final newTimer = Timerable(
                   id: const Uuid().v4(),
+
                   name: _presetNameController.text.isNotEmpty
                       ? _presetNameController.text
                       : 'Multi-Timer',
+
                   timerType: TimerType.multiTimer,
+
                   duration: _timers.isNotEmpty
                       ? _timers.first.duration
                       : Duration.zero,
+
                   initialDuration: totalDuration,
+
                   steps: _timers,
                 );
+
                 timerService.addTimer(newTimer);
+
                 Navigator.of(context).pop();
               },
+
               child: const Text('Start'),
             ),
           ],
@@ -205,104 +310,77 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
     );
   }
 
-  Widget _buildTimerCard(int index, Key key) {
-    return Card(
-      key: key,
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Icon(Icons.drag_indicator),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Column(
-                children: [
-                  TextFormField(
-                    initialValue: _timers[index].label,
-                    onChanged: (value) {
-                      setState(() {
-                        _timers[index] = _timers[index].copyWith(label: value);
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'Timer Label',
-                      hintText: 'e.g., Plank',
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildTimeInput(
-                        initialValue: _timers[index].duration.inMinutes
-                            .toString()
-                            .padLeft(2, '0'),
-                        onChanged: (value) {
-                          final minutes = int.tryParse(value) ?? 0;
-                          setState(() {
-                            _timers[index] = _timers[index].copyWith(
-                              duration: Duration(
-                                minutes: minutes,
-                                seconds: _timers[index].duration.inSeconds % 60,
-                              ),
-                            );
-                          });
-                        },
-                      ),
-                      const Text(':', style: TextStyle(fontSize: 24)),
-                      _buildTimeInput(
-                        initialValue: (_timers[index].duration.inSeconds % 60)
-                            .toString()
-                            .padLeft(2, '0'),
-                        onChanged: (value) {
-                          final seconds = int.tryParse(value) ?? 0;
-                          setState(() {
-                            _timers[index] = _timers[index].copyWith(
-                              duration: Duration(
-                                minutes: _timers[index].duration.inMinutes,
-                                seconds: seconds,
-                              ),
-                            );
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  TextButton.icon(
-                    onPressed: () => _showSoundSelectionDialog(index),
-                    icon: const Icon(Icons.music_note),
-                    label: Text(_timers[index].alertSound),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () => _removeTimer(index),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+    Widget _buildTimerCard(int index, Key key) {
 
-  Widget _buildTimeInput({
-    required String initialValue,
-    required ValueChanged<String> onChanged,
-  }) {
-    return SizedBox(
-      width: 40,
-      child: TextFormField(
-        initialValue: initialValue,
-        onChanged: onChanged,
-        textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 24, fontFamily: 'monospace'),
-        decoration: const InputDecoration(border: InputBorder.none),
-        keyboardType: TextInputType.number,
+      return GestureDetector(
+
+        key: key,
+
+        onLongPress: () => _showDeleteConfirmationDialog(index),
+
+        child: Card(
+
+          margin: const EdgeInsets.only(bottom: 16),
+
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+
+            children: [
+              const Icon(Icons.drag_indicator),
+
+              const SizedBox(width: 8),
+
+              Expanded(
+                child: Column(
+                  children: [
+                    TextFormField(
+                      initialValue: _timers[index].label,
+
+                      onChanged: (value) {
+                        setState(() {
+                          _timers[index] = _timers[index].copyWith(
+                            label: value,
+                          );
+                        });
+                      },
+
+                      decoration: const InputDecoration(
+                        labelText: 'Timer Label',
+
+                        hintText: 'e.g., Plank',
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    TextButton(
+                      onPressed: () => _showDurationPicker(index),
+
+                      child: Text(
+                        '${_timers[index].duration.inHours.toString().padLeft(2, '0')}:${(_timers[index].duration.inMinutes % 60).toString().padLeft(2, '0')}:${(_timers[index].duration.inSeconds % 60).toString().padLeft(2, '0')}',
+
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    TextButton.icon(
+                      onPressed: () => _showSoundSelectionDialog(index),
+
+                      icon: const Icon(Icons.music_note),
+
+                      label: Text(_timers[index].alertSound),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
