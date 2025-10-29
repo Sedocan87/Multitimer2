@@ -52,14 +52,23 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
 
   void _savePreset() {
     final timerService = Provider.of<TimerService>(context, listen: false);
-    final totalDuration = _timers.fold(Duration.zero, (prev, step) => prev + step.duration);
+    final totalDuration = _timers.fold(
+      Duration.zero,
+      (prev, step) => prev + step.duration,
+    );
     final newPreset = Timerable(
       id: const Uuid().v4(),
-      name: _presetNameController.text.isNotEmpty ? _presetNameController.text : 'Multi-Timer',
+      name: _presetNameController.text.isNotEmpty
+          ? _presetNameController.text
+          : 'Multi-Timer',
       timerType: TimerType.multiTimer,
-      duration: totalDuration,
+      duration: _timers.isNotEmpty
+          ? _timers.first.duration
+          : Duration.zero, // Duration of the first step
+      initialDuration: totalDuration,
+      steps: _timers, // Pass the list of timers
     );
-    timerService.addTimer(newPreset);
+    timerService.savePreset(newPreset);
     Navigator.of(context).pop();
   }
 
@@ -138,7 +147,9 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
               key: const Key('add_timer_button'),
               onPressed: _addTimer,
               style: ButtonStyle(
-                minimumSize: WidgetStateProperty.all(const Size(double.infinity, 50)),
+                minimumSize: WidgetStateProperty.all(
+                  const Size(double.infinity, 50),
+                ),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -152,12 +163,45 @@ class _NewTimerSetupScreenState extends State<NewTimerSetupScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _savePreset,
-        label: const Text('Save Preset'),
-        icon: const Icon(Icons.save),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+              onPressed: _savePreset,
+              child: const Text('Save Preset'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final timerService = Provider.of<TimerService>(
+                  context,
+                  listen: false,
+                );
+                final totalDuration = _timers.fold(
+                  Duration.zero,
+                  (prev, step) => prev + step.duration,
+                );
+                final newTimer = Timerable(
+                  id: const Uuid().v4(),
+                  name: _presetNameController.text.isNotEmpty
+                      ? _presetNameController.text
+                      : 'Multi-Timer',
+                  timerType: TimerType.multiTimer,
+                  duration: _timers.isNotEmpty
+                      ? _timers.first.duration
+                      : Duration.zero,
+                  initialDuration: totalDuration,
+                  steps: _timers,
+                );
+                timerService.addTimer(newTimer);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Start'),
+            ),
+          ],
+        ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

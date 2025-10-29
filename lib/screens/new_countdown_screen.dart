@@ -22,8 +22,6 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
   RepeatType _repeat = RepeatType.none;
   TimeOfDay? _alertTime;
   String? _alertSound = 'Default';
-  bool _isRepeatExpanded = false;
-  bool _isAlertsExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -78,22 +76,10 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
             const SizedBox(height: 20),
             _buildCollapsibleSection(
               title: 'Repeat',
-              isExpanded: _isRepeatExpanded,
-              onExpansionChanged: (expanded) {
-                setState(() {
-                  _isRepeatExpanded = expanded;
-                });
-              },
               child: _buildRepeatOptions(),
             ),
             _buildCollapsibleSection(
               title: 'Alerts',
-              isExpanded: _isAlertsExpanded,
-              onExpansionChanged: (expanded) {
-                setState(() {
-                  _isAlertsExpanded = expanded;
-                });
-              },
               child: _buildAlertsOptions(),
             ),
             const SizedBox(height: 20),
@@ -101,12 +87,23 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
-                  final timerService = Provider.of<TimerService>(context, listen: false);
+                  final timerService = Provider.of<TimerService>(
+                    context,
+                    listen: false,
+                  );
                   final newCountdown = Timerable(
                     id: const Uuid().v4(),
                     name: _name,
                     timerType: TimerType.countdown,
-                    duration: _type == CountdownType.duration ? _duration : _targetDate.difference(DateTime.now()),
+                    countdownType: _type, // Set countdownType
+                    duration: _type == CountdownType.duration
+                        ? _duration
+                        : _targetDate.difference(DateTime.now()),
+                    initialDuration: _type == CountdownType.duration
+                        ? _duration
+                        : _targetDate.difference(
+                            DateTime.now(),
+                          ), // Set initialDuration
                   );
                   timerService.addTimer(newCountdown);
                   Navigator.of(context).pop();
@@ -121,17 +118,55 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
   }
 
   Widget _buildDateTimePicker() {
-    return SizedBox(
-      height: 200,
-      child: CupertinoDatePicker(
-        mode: CupertinoDatePickerMode.dateAndTime,
-        initialDateTime: _targetDate,
-        onDateTimeChanged: (newDate) {
-          setState(() {
-            _targetDate = newDate;
-          });
-        },
-      ),
+    return Column(
+      children: [
+        ListTile(
+          title: const Text('Date'),
+          trailing: Text(
+            '${_targetDate.year}-${_targetDate.month}-${_targetDate.day}',
+          ),
+          onTap: () async {
+            final date = await showDatePicker(
+              context: context,
+              initialDate: _targetDate,
+              firstDate: DateTime.now(),
+              lastDate: DateTime(2100),
+            );
+            if (date != null) {
+              setState(() {
+                _targetDate = DateTime(
+                  date.year,
+                  date.month,
+                  date.day,
+                  _targetDate.hour,
+                  _targetDate.minute,
+                );
+              });
+            }
+          },
+        ),
+        ListTile(
+          title: const Text('Time'),
+          trailing: Text('${_targetDate.hour}:${_targetDate.minute}'),
+          onTap: () async {
+            final time = await showTimePicker(
+              context: context,
+              initialTime: TimeOfDay.fromDateTime(_targetDate),
+            );
+            if (time != null) {
+              setState(() {
+                _targetDate = DateTime(
+                  _targetDate.year,
+                  _targetDate.month,
+                  _targetDate.day,
+                  time.hour,
+                  time.minute,
+                );
+              });
+            }
+          },
+        ),
+      ],
     );
   }
 
@@ -152,24 +187,9 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
 
   Widget _buildCollapsibleSection({
     required String title,
-    required bool isExpanded,
-    required ValueChanged<bool> onExpansionChanged,
     required Widget child,
   }) {
-    return ExpansionPanelList(
-      expansionCallback: (int index, bool isExpanded) {
-        onExpansionChanged(!isExpanded);
-      },
-      children: [
-        ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(title: Text(title));
-          },
-          body: child,
-          isExpanded: isExpanded,
-        ),
-      ],
-    );
+    return ExpansionTile(title: Text(title), children: [child]);
   }
 
   Widget _buildRepeatOptions() {

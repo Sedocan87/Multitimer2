@@ -11,7 +11,9 @@ import 'package:time_blocks/main.dart';
 import 'package:time_blocks/services/timer_service.dart';
 
 void main() {
-  testWidgets('App starts and shows the dashboard screen title', (WidgetTester tester) async {
+  testWidgets('App starts and shows the dashboard screen title', (
+    WidgetTester tester,
+  ) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       ChangeNotifierProvider(

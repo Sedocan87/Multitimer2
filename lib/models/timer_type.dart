@@ -1,5 +1,1 @@
-enum TimerType {
-  stopwatch,
-  multiTimer,
-  countdown,
-}
+enum TimerType { stopwatch, multiTimer, countdown }

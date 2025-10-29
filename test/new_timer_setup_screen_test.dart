@@ -23,7 +23,7 @@ void main() {
 
     // Verify that the "Save Preset" button is displayed.
     expect(
-      find.widgetWithText(FloatingActionButton, 'Save Preset'),
+      find.widgetWithText(ElevatedButton, 'Save Preset'),
       findsOneWidget,
     );
   });
