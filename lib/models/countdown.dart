@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 
 enum CountdownType { dateAndTime, duration }
 
@@ -10,8 +10,8 @@ class Countdown {
   final DateTime? targetDate;
   final Duration? duration;
   final RepeatType repeat;
-  final TimeOfDay? alertTime;
   final String? alertSound;
+  final bool enableAlert;
 
   Countdown({
     required this.name,
@@ -19,8 +19,8 @@ class Countdown {
     this.targetDate,
     this.duration,
     this.repeat = RepeatType.none,
-    this.alertTime,
     this.alertSound,
+    this.enableAlert = false,
   });
 
   Countdown copyWith({
@@ -29,8 +29,8 @@ class Countdown {
     DateTime? targetDate,
     Duration? duration,
     RepeatType? repeat,
-    TimeOfDay? alertTime,
     String? alertSound,
+    bool? enableAlert,
   }) {
     return Countdown(
       name: name ?? this.name,
@@ -38,8 +38,7 @@ class Countdown {
       targetDate: targetDate ?? this.targetDate,
       duration: duration ?? this.duration,
       repeat: repeat ?? this.repeat,
-      alertTime: alertTime ?? this.alertTime,
       alertSound: alertSound ?? this.alertSound,
+      enableAlert: enableAlert ?? this.enableAlert,
     );
-  }
-}
+  }}

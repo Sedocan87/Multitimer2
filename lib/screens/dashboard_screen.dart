@@ -261,23 +261,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                           label: const Text('Pause'),
                         )
-                      else
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            Provider.of<TimerService>(
-                              context,
-                              listen: false,
-                            ).resumeTimer(timer.id);
-                          },
-
-                          icon: const Icon(Icons.play_arrow),
-
-                          label: const Text('Resume'),
-
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                          ),
-                        ),
+                                            else if (timer.timerType == TimerType.stopwatch ||
+                                                (timer.timerType != TimerType.stopwatch &&
+                                                    timer.duration > Duration.zero))
+                                              ElevatedButton.icon(
+                                                onPressed: () {
+                                                  Provider.of<TimerService>(
+                                                    context,
+                                                    listen: false,
+                                                  ).resumeTimer(timer.id);
+                                                },
+                      
+                                                icon: const Icon(Icons.play_arrow),
+                      
+                                                label: const Text('Resume'),
+                      
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.orange,
+                                                ),
+                                              ),
                     ],
                   ],
                 ),

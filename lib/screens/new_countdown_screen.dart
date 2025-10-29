@@ -6,6 +6,7 @@ import 'package:time_blocks/services/timer_service.dart';
 import 'package:time_blocks/models/countdown.dart';
 import 'package:uuid/uuid.dart';
 
+
 class NewCountdownScreen extends StatefulWidget {
   const NewCountdownScreen({super.key});
 
@@ -20,7 +21,7 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
   DateTime _targetDate = DateTime.now();
   Duration _duration = const Duration(hours: 1);
   RepeatType _repeat = RepeatType.none;
-  TimeOfDay? _alertTime;
+  bool _enableAlert = false;
   String? _alertSound = 'Default';
 
   @override
@@ -91,21 +92,20 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
                     context,
                     listen: false,
                   );
-                  final newCountdown = Timerable(
+                  final newTimerable = Timerable(
                     id: const Uuid().v4(),
                     name: _name,
                     timerType: TimerType.countdown,
-                    countdownType: _type, // Set countdownType
+                    countdownType: _type,
                     duration: _type == CountdownType.duration
                         ? _duration
                         : _targetDate.difference(DateTime.now()),
                     initialDuration: _type == CountdownType.duration
                         ? _duration
-                        : _targetDate.difference(
-                            DateTime.now(),
-                          ), // Set initialDuration
+                        : _targetDate.difference(DateTime.now()),
+                    // Add alert settings to Timerable if needed, or handle separately
                   );
-                  timerService.addTimer(newCountdown);
+                  timerService.addTimer(newTimerable);
                   Navigator.of(context).pop();
                 }
               },
@@ -221,33 +221,28 @@ class _NewCountdownScreenState extends State<NewCountdownScreen> {
   Widget _buildAlertsOptions() {
     return Column(
       children: [
-        ListTile(
-          title: const Text('Alert Time'),
-          trailing: Text(_alertTime?.format(context) ?? 'Not set'),
-          onTap: () async {
-            final time = await showTimePicker(
-              context: context,
-              initialTime: _alertTime ?? TimeOfDay.now(),
-            );
-            if (time != null) {
-              setState(() {
-                _alertTime = time;
-              });
-            }
+        SwitchListTile(
+          title: const Text('Enable Alert'),
+          value: _enableAlert,
+          onChanged: (value) {
+            setState(() {
+              _enableAlert = value;
+            });
           },
         ),
-        ListTile(
-          title: const Text('Alert Sound'),
-          trailing: Text(_alertSound ?? 'Default'),
-          onTap: () async {
-            final selectedSound = await _showSoundPicker();
-            if (selectedSound != null) {
-              setState(() {
-                _alertSound = selectedSound;
-              });
-            }
-          },
-        ),
+        if (_enableAlert)
+          ListTile(
+            title: const Text('Alert Sound'),
+            trailing: Text(_alertSound ?? 'Default'),
+            onTap: () async {
+              final selectedSound = await _showSoundPicker();
+              if (selectedSound != null) {
+                setState(() {
+                  _alertSound = selectedSound;
+                });
+              }
+            },
+          ),
       ],
     );
   }

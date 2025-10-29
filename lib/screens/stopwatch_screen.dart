@@ -86,8 +86,6 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
           _buildTimerDisplay(),
           _buildControls(),
           _buildLapList(),
-          _buildSavedSessionsHeader(),
-          _buildSavedSessionsList(),
         ],
       ),
     );
@@ -135,32 +133,6 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
           return ListTile(
             leading: Text('Lap ${index + 1}'),
             title: Text(_laps[index]),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildSavedSessionsHeader() {
-    return const Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Text(
-        'SAVED SESSIONS',
-        style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-
-  Widget _buildSavedSessionsList() {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: 0, // Placeholder
-        itemBuilder: (context, index) {
-          return const ListTile(
-            leading: Icon(Icons.history),
-            title: Text('Session 1'),
-            subtitle: Text('00:00:00.00'),
-            trailing: Icon(Icons.chevron_right),
           );
         },
       ),

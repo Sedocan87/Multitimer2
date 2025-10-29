@@ -47,7 +47,7 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
   final List<Timerable> _savedPresets = []; // New list
   Timer? _timer;
 
-  DateTime? _backgroundTime; // New property to store background entry time
+
 
   List<Timerable> get activeTimers => _activeTimers;
   List<Timerable> get recentTimers => _recentTimers;
@@ -101,28 +101,9 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
-      _backgroundTime = DateTime.now();
+      _saveTimers(); // Save timers when app goes to background
     } else if (state == AppLifecycleState.resumed) {
-      if (_backgroundTime != null) {
-        final backgroundDuration = DateTime.now().difference(_backgroundTime!);
-        for (var t in _activeTimers) {
-          if (t.isActive) {
-            // Adjust timer duration based on backgroundDuration
-            if (t.timerType == TimerType.countdown ||
-                t.timerType == TimerType.multiTimer) {
-              t.duration -= backgroundDuration;
-              if (t.duration < Duration.zero) {
-                t.duration = Duration.zero;
-                t.isActive = false;
-              }
-            } else if (t.timerType == TimerType.stopwatch) {
-              t.duration += backgroundDuration;
-            }
-          }
-        }
-        notifyListeners();
-        _backgroundTime = null;
-      }
+      // Logic for adjusting timers based on background duration is now handled in _loadTimers()
     }
   }
 
@@ -222,6 +203,7 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
       'savedPresets',
       jsonEncode(_savedPresets.map((t) => t.toJson()).toList()),
     );
+    prefs.setString('lastActiveTime', DateTime.now().toIso8601String());
   }
 
   Future<void> _loadTimers() async {
@@ -249,6 +231,25 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
           (e) => Timerable.fromJson(e as Map<String, dynamic>),
         ),
       );
+    }
+    final lastActiveTimeString = prefs.getString('lastActiveTime');
+    if (lastActiveTimeString != null) {
+      final lastActiveTime = DateTime.parse(lastActiveTimeString);
+      final elapsedTime = DateTime.now().difference(lastActiveTime);
+      for (var t in _activeTimers) {
+        if (t.isActive) {
+          if (t.timerType == TimerType.countdown ||
+              t.timerType == TimerType.multiTimer) {
+            t.duration -= elapsedTime;
+            if (t.duration < Duration.zero) {
+              t.duration = Duration.zero;
+              t.isActive = false;
+            }
+          } else if (t.timerType == TimerType.stopwatch) {
+            t.duration += elapsedTime;
+          }
+        }
+      }
     }
     notifyListeners();
   }
