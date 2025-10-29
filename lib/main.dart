@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:time_blocks/screens/dashboard_screen.dart';
+import 'package:time_blocks/services/notification_service.dart';
 import 'package:time_blocks/services/timer_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init();
   runApp(
     ChangeNotifierProvider(
       create: (context) => TimerService(),

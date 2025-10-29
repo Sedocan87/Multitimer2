@@ -7,7 +7,8 @@ import 'package:time_blocks/models/countdown.dart';
 import 'package:time_blocks/models/timer_type.dart';
 import 'package:time_blocks/models/multi_timer.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Re-add this import
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:time_blocks/services/notification_service.dart'; // Re-add this import
 
 part 'timer_service.g.dart';
 
@@ -46,7 +47,7 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
   final List<Timerable> _recentTimers = [];
   final List<Timerable> _savedPresets = []; // New list
   Timer? _timer;
-
+  final NotificationService _notificationService = NotificationService();
 
 
   List<Timerable> get activeTimers => _activeTimers;
@@ -69,6 +70,8 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
                   t.duration -= const Duration(milliseconds: 10);
                 } else {
                   t.isActive = false;
+                  _notificationService.showNotification(
+                      t.name, 'Countdown finished!');
                 }
                 break;
               case TimerType.multiTimer:
@@ -80,6 +83,8 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
                     t.duration = t.steps[t.currentStepIndex].duration;
                   } else {
                     t.isActive = false;
+                    _notificationService.showNotification(
+                        t.name, 'Multi-step timer finished!');
                   }
                 }
                 break;
