@@ -22,10 +22,7 @@ void main() {
     expect(find.byKey(const Key('add_timer_button')), findsOneWidget);
 
     // Verify that the "Save Preset" button is displayed.
-    expect(
-      find.widgetWithText(ElevatedButton, 'Save Preset'),
-      findsOneWidget,
-    );
+    expect(find.widgetWithText(ElevatedButton, 'Save Preset'), findsOneWidget);
   });
 
   testWidgets('Can add and remove timers', (WidgetTester tester) async {

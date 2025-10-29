@@ -6,7 +6,6 @@ import 'package:time_blocks/services/timer_service.dart';
 import 'package:time_blocks/models/countdown.dart';
 import 'package:uuid/uuid.dart';
 
-
 class NewCountdownScreen extends StatefulWidget {
   const NewCountdownScreen({super.key});
 

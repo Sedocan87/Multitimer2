@@ -1,4 +1,3 @@
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
@@ -21,34 +20,36 @@ class NotificationService {
         InitializationSettings(android: initializationSettingsAndroid);
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
 
-  Future<void> showNotification(String title, String body) async {
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'your_channel_id',
       'your_channel_name',
       description: 'your_channel_description',
       importance: Importance.max,
       playSound: true,
-      sound: null,
     );
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(channel);
+  }
 
+  Future<void> showNotification(String title, String body) async {
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      channel.id,
-      channel.name,
-      channelDescription: channel.description,
-      importance: Importance.max,
-      priority: Priority.high,
-      showWhen: false,
+          'your_channel_id',
+          'your_channel_name',
+          channelDescription: 'your_channel_description',
+          importance: Importance.max,
+          priority: Priority.high,
+          showWhen: false,
+          playSound: true,
+        );
+    final NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
     );
-    final NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       0,
       title,

@@ -1,5 +1,3 @@
-
-
 enum CountdownType { dateAndTime, duration }
 
 enum RepeatType { none, daily, weekly, monthly, yearly }
@@ -41,4 +39,5 @@ class Countdown {
       alertSound: alertSound ?? this.alertSound,
       enableAlert: enableAlert ?? this.enableAlert,
     );
-  }}
+  }
+}

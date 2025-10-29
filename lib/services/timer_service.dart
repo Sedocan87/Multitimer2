@@ -49,7 +49,6 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
   Timer? _timer;
   final NotificationService _notificationService = NotificationService();
 
-
   List<Timerable> get activeTimers => _activeTimers;
   List<Timerable> get recentTimers => _recentTimers;
   List<Timerable> get savedPresets => _savedPresets;
@@ -71,7 +70,9 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
                 } else {
                   t.isActive = false;
                   _notificationService.showNotification(
-                      t.name, 'Countdown finished!');
+                    t.name,
+                    'Countdown finished!',
+                  );
                 }
                 break;
               case TimerType.multiTimer:
@@ -84,7 +85,9 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
                   } else {
                     t.isActive = false;
                     _notificationService.showNotification(
-                        t.name, 'Multi-step timer finished!');
+                      t.name,
+                      'Multi-step timer finished!',
+                    );
                   }
                 }
                 break;
@@ -131,8 +134,9 @@ class TimerService extends ChangeNotifier with WidgetsBindingObserver {
   Future<bool> didPushRoute(String route) async => true;
 
   @override
-  Future<bool> didPushRouteInformation(RouteInformation routeInformation) async =>
-      true;
+  Future<bool> didPushRouteInformation(
+    RouteInformation routeInformation,
+  ) async => true;
 
   @override
   Future<bool> didPopRoute() async => true;

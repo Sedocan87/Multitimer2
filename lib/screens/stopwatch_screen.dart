@@ -82,11 +82,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
         ],
       ),
       body: Column(
-        children: [
-          _buildTimerDisplay(),
-          _buildControls(),
-          _buildLapList(),
-        ],
+        children: [_buildTimerDisplay(), _buildControls(), _buildLapList()],
       ),
     );
   }
